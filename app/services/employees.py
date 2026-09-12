@@ -22,3 +22,21 @@ def get_all_employees():
     ))
 
     return employees
+
+def get_employee_data(
+    employee_id
+):
+    query = {"employee_id": employee_id}
+
+    employee = employees_collection.find_one(
+        query,
+        {"_id": 0}
+    )
+    
+    if not employee:
+        raise HTTPException(
+            status_code=404,
+            detail="Employee not found"
+        )
+
+    return employee

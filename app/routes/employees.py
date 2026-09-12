@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 # Services
 from services.employees import create_employee
 from services.employees import get_all_employees
+from services.employees import get_employee_data
 
 # Schemas
 from schemas.employees import EmployeeCreate
@@ -28,3 +29,8 @@ def employee_create(employee: EmployeeCreate):
         "success": employee,
         "message": "Employee created successfully!"
     }
+
+@router.get('/{employee_id}')
+def get_employee(employee_id):
+    
+    return get_employee_data(employee_id)
