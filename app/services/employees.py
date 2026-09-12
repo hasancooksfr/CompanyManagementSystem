@@ -8,3 +8,17 @@ def create_employee(employee):
     employees_collection.insert_one(employee_dict)
 
     return True
+
+def get_all_employees():
+    employees = list(employees_collection.find(
+        {},
+        {
+            "_id": 0,
+            "employee_id": 1,
+            "name": 1,
+            "email_id": 1,
+            "department": 1
+        }
+    ))
+
+    return employees
