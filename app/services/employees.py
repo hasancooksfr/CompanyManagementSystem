@@ -1,13 +1,21 @@
 from database import employees_collection
 from fastapi import HTTPException
+from pymongo.errors import DuplicateKeyError
 
 def create_employee(employee):
     employee_dict = employee.model_dump()
 
-    employee_dict['_id'] = employee_dict['employee_id']
-    employees_collection.insert_one(employee_dict)
+    try:
+        employee_dict['_id'] = employee_dict['employee_id']
+        employees_collection.insert_one(employee_dict)
 
-    return True
+        return True
+        
+    except DuplicateKeyError:
+        raise HTTPException(
+            status_code=409,
+            detail="Employee ID already exists."
+        )
 
 def get_all_employees():
     employees = list(employees_collection.find(
