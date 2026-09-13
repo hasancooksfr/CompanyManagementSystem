@@ -41,6 +41,9 @@ Employement Status
 ```
 
 ## API Endpoints
+
+Postman collection can be found here: [Postman Collection](https://hasancooksreal-6713011.postman.co/workspace/Hasandeep-Singh's-Workspace~f633d136-ee62-4631-8d61-6bc7c15f1a2b/folder/50773921-650d8361-e262-42f9-b1ce-390f0eeb11bf?action=share&creator=50773921)
+
 ### Get all employees
 ```http
 GET /employees/
