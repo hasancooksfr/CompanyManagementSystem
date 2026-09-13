@@ -5,6 +5,7 @@ from services.employees import create_employee
 from services.employees import get_all_employees
 from services.employees import get_employee_data
 from services.employees import update_employee_data
+from services.employees import delete_employee_data
 
 # Schemas
 from schemas.employees import EmployeeCreate
@@ -45,5 +46,16 @@ def update_employee(employee_id, employee: EmployeeUpdate):
     return {
         "success": True,
         "message": "Employee details updated successfully!",
+        "employee_id": employee_id
+    }
+
+@router.delete('/{employee_id}')
+def delete_employee(employee_id):
+
+    delete_employee_data(employee_id)
+
+    return {
+        "success": True,
+        "message": "Employee deteled successfully!",
         "employee_id": employee_id
     }

@@ -65,3 +65,18 @@ def update_employee_data(
         )
 
     return result
+
+def delete_employee_data(
+    employee_id
+):
+    result = employees_collection.delete_one(
+        {"_id": employee_id}
+    )
+
+    if result.deleted_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="Invalid Employee ID. Employee not found."
+        )
+    
+    return result
