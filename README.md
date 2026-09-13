@@ -41,9 +41,6 @@ Employement Status
 ```
 
 ## API Endpoints
-
-Postman collection can be found here: [Postman Collection](https://hasancooksreal-6713011.postman.co/workspace/Hasandeep-Singh's-Workspace~f633d136-ee62-4631-8d61-6bc7c15f1a2b/folder/50773921-650d8361-e262-42f9-b1ce-390f0eeb11bf?action=share&creator=50773921)
-
 ### Get all employees
 ```http
 GET /employees/
@@ -132,6 +129,11 @@ The API will be available at:
 ```
 http://127.0.0.1:8000
 ```
+
+### Postman Collection
+
+Postman collection for *Employee Management* can be found [here](https://www.postman.com/hasancooksreal-6713011/workspace/company-management-system/folder/50773921-650d8361-e262-42f9-b1ce-390f0eeb11bf?action=share&creator=50773921). **Please run server first to test all the commands smoothly**.
+
 
 ## Screenshots
 ### Employee Creation
