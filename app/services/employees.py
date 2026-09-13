@@ -48,3 +48,20 @@ def get_employee_data(
         )
 
     return employee
+
+def update_employee_data(
+    employee_id,
+    employee
+):
+    result = employees_collection.update_one(
+        {"_id": employee_id},
+        {"$set": employee.model_dump(exclude_unset=True)}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="Invalid Employee ID. Employee not found."
+        )
+
+    return result

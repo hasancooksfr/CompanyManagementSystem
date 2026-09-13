@@ -4,9 +4,11 @@ from fastapi import APIRouter, HTTPException
 from services.employees import create_employee
 from services.employees import get_all_employees
 from services.employees import get_employee_data
+from services.employees import update_employee_data
 
 # Schemas
 from schemas.employees import EmployeeCreate
+from schemas.employees import EmployeeUpdate
 
 router = APIRouter()
 
@@ -34,3 +36,14 @@ def employee_create(employee: EmployeeCreate):
 def get_employee(employee_id):
     
     return get_employee_data(employee_id)
+
+@router.put('/{employee_id}')
+def update_employee(employee_id, employee: EmployeeUpdate):
+    
+    update_employee_data(employee_id, employee)
+
+    return {
+        "success": True,
+        "message": "Employee details updated successfully!",
+        "employee_id": employee_id
+    }

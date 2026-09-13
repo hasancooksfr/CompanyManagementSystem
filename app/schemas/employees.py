@@ -9,4 +9,15 @@ class EmployeeCreate(BaseModel):
     date_of_joining: str
     job_title: str
     salary: int
-    employement_status: str
+    employment_status: str
+
+class EmployeeUpdate(BaseModel):
+    employee_id: str | None = None
+    name: str | None = None
+    department: str | None = None
+    email_id: str | None = None
+    phone_number: int | None = None
+    date_of_joining: str | None = None
+    job_title: str | None = None
+    salary: int | None = None
+    employment_status: str | None=None
