@@ -140,6 +140,12 @@ http://127.0.0.1:8000
 ### Get employee details
 ![Get employee details](assets/get_employee_details.png)
 
+### Update employee details
+![Update employee details](assets/update_employee.png)
+
+### Delete employee details
+![Delete employee details](assets/delete_employee.png)
+
 ## Testing
 The employee management system has been tested for:
 - Creating employee records
