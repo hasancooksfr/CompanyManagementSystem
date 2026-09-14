@@ -1,0 +1,3 @@
+from database import departments_collection
+from fastapi import HTTPException
+from pymongo.errors import DuplicateKeyError
