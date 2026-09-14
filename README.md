@@ -81,11 +81,11 @@ Example request:
     "name": "John Doe",
     "email_id": "john.doe@example.com",
     "phone_number": 1234567890,
-    "department": "Sales",
+    "department_id": "DEP001",
     "job_title": "Sales Executive",
     "date_of_joining": "2026-09-12",
     "salary": 14000,
-    "employement_status": "active"
+    "employment_status": "active"
 }
 ```
 
