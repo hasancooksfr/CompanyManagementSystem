@@ -37,7 +37,7 @@ Department
 Job Title
 Salary
 Date of Joining
-Employement Status
+Employment Status
 ```
 
 ## API Endpoints
@@ -158,4 +158,5 @@ The employee management system has been tested for:
 - Updating employee records
 - Deleting employee records 
 - Invalid employee data
+- Invalid department_id error
 - Duplicate employee IDs
