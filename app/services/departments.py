@@ -1,4 +1,5 @@
 from database import departments_collection
+from database import employees_collection
 from fastapi import HTTPException
 from pymongo.errors import DuplicateKeyError
 
@@ -10,13 +11,36 @@ def create_department(department):
     })
 
     if not result:
-        departments_collection.insert_one(department_dict)
+        res = employees_collection.find_one({
+            "employee_id": department_dict['manager_id']
+        })
 
-        return True
+        if res:
+            departments_collection.insert_one(department_dict)
 
+            return True
+        
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="Manager with ID not found."
+            )
+        
     else:
         raise HTTPException(
             status_code=409,
             detail="Department ID already exists."
         )
 
+def get_all_departments():
+    data = list(departments_collection.find(
+        {},
+        {
+            "_id": 0,
+            "department_id": 1,
+            "name": 1,
+            "manager_id": 1
+        }
+    ))
+
+    return data
