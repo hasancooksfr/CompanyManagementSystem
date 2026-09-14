@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 class EmployeeCreate(BaseModel):
     employee_id: str
     name: str
-    department: str
+    department_id: str
     email_id: str
     phone_number: int
     date_of_joining: str
@@ -14,7 +14,7 @@ class EmployeeCreate(BaseModel):
 class EmployeeUpdate(BaseModel):
     employee_id: str | None = None
     name: str | None = None
-    department: str | None = None
+    department_id: str | None = None
     email_id: str | None = None
     phone_number: int | None = None
     date_of_joining: str | None = None
