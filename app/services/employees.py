@@ -75,7 +75,7 @@ def update_employee_data(
             )
 
     result = employees_collection.update_one(
-        {"_id": employee_id},
+        {"employee_id": employee_id},
         {"$set": emp}
     )
 
