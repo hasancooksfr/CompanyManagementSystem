@@ -60,3 +60,21 @@ def get_department_data(department_id):
 
     else:
         return data
+
+def update_department_data(department_id, department):
+
+    dep = department.model_dump(exclude_unset=True)
+    dep["department_id"] = department_id
+
+    res = departments_collection.update_one(
+        {"department_id": department_id},
+        {"$set": dep}
+    )
+
+    if res.matched_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="Department with given ID not found."
+        )
+
+    return True
