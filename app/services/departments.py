@@ -86,3 +86,14 @@ def update_department_data(department_id, department):
         )
 
     return True
+
+def delete_department_data(department_id):
+    dep = departments_collection.delete_one({"department_id": department_id})
+
+    if dep.deleted_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="Department with that ID does not exist."
+        )
+    
+    return True

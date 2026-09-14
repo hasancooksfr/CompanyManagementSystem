@@ -5,6 +5,7 @@ from services.departments import create_department
 from services.departments import get_all_departments
 from services.departments import get_department_data
 from services.departments import update_department_data
+from services.departments import delete_department_data
 
 # Schemas
 from schemas.departments import DepartmentCreate
@@ -42,4 +43,13 @@ def departmentUpdate(department_id, department: DepartmentUpdate):
     return {
         "success": True,
         "message": "Department data updated successfully."
+    }
+
+@router.delete('/{department_id}')
+def departmentDelete(department_id):
+    delete_department_data(department_id)
+
+    return {
+        "success": True,
+        "message": "Department deleted successfully."
     }
