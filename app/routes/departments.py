@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 # Services
 from services.departments import create_department
 from services.departments import get_all_departments
+from services.departments import get_department_data
 
 # Schemas
 from schemas.departments import DepartmentCreate
@@ -27,3 +28,7 @@ def department_create(department: DepartmentCreate):
         "success": True,
         "message": "Department created successfully."
     }
+
+@router.get('/{department_id}')
+def departmentData(department_id):
+    return get_department_data(department_id)
