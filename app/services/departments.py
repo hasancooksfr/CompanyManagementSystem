@@ -66,6 +66,14 @@ def update_department_data(department_id, department):
     dep = department.model_dump(exclude_unset=True)
     dep["department_id"] = department_id
 
+    if "manager_id" in dep:
+        result = employees_collection.find_one({"employee_id": dep['manager_id']})
+        if not result:
+            raise HTTPException(
+                status_code=404,
+                detail="Employee ID with manager_id not found."
+            )
+
     res = departments_collection.update_one(
         {"department_id": department_id},
         {"$set": dep}
