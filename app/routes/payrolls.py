@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 # Services
 from services.payrolls import create_salary_structure
 from services.payrolls import view_salary_structure
+from services.payrolls import calculate_net_salary
 
 # Schemas
 from schemas.payrolls import SalaryStructure
@@ -24,4 +25,14 @@ def salary_structure(salary: SalaryStructure):
     return {
         "success": True,
         "message": "Salary structure successfully created."
+    }
+
+@router.get('/net-salary/{employee_id}')
+def net_salary(employee_id):
+    net_salary = calculate_net_salary(employee_id)
+
+    return {
+        "success": True,
+        "message": "Calculated net salary for employee.",
+        "net_salary": net_salary
     }

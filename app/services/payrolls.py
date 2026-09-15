@@ -33,3 +33,18 @@ def view_salary_structure(employee_id):
         )
 
     return res
+
+def calculate_net_salary(employee_id):
+    res = salary_structure_collection.find_one({"employee_id": employee_id}, {"_id": 0})
+    if not res:
+        raise HTTPException(
+            status_code=404,
+            detail="No records found for that employee ID."
+        )
+
+    basic_salary = res["basic_salary"]
+    total_allowances = sum(res['allowances'].values())
+    total_deductions = sum(res['deductions'].values())
+
+    net_salary = (basic_salary + total_allowances) - total_deductions
+    return net_salary
