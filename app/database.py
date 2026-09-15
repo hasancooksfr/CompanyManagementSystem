@@ -12,3 +12,5 @@ db = client[DATABASE_NAME]
 
 employees_collection = db['employees']
 departments_collection = db['departments']
+salary_structure_collection = db['salary_structure']
+payrolls_collection = db['payrolls']
