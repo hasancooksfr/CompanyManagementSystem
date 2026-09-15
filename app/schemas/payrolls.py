@@ -6,4 +6,8 @@ class SalaryStructure(BaseModel):
     basic_salary: float = Field(gt=0)
     allowances: Dict[str, float] = Field(default_factory=dict)
     deductions: Dict[str, float] = Field(default_factory=dict)
-    
+
+class SalaryStructureUpdate(BaseModel):
+    basic_salary: float = Field(gt=0)
+    allowances: Dict[str, float] = Field(default_factory=dict)
+    deductions: Dict[str, float] = Field(default_factory=dict)

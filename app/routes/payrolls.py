@@ -5,9 +5,11 @@ from services.payrolls import create_salary_structure
 from services.payrolls import view_salary_structure
 from services.payrolls import calculate_net_salary
 from services.payrolls import all_salary_structures
+from services.payrolls import salary_structure_update
 
 # Schemas
 from schemas.payrolls import SalaryStructure
+from schemas.payrolls import SalaryStructureUpdate
 
 router = APIRouter()
 
@@ -36,6 +38,14 @@ def salary_structure(salary: SalaryStructure):
     return {
         "success": True,
         "message": "Salary structure successfully created."
+    }
+
+@router.put('/salary-structure/{employee_id}')
+def update_salary_structure(employee_id, salary_structure: SalaryStructureUpdate):
+    salary_structure_update(employee_id, salary_structure)
+    return {
+        "success": True,
+        "message": "Updated Salary Structure successfully."
     }
 
 @router.get('/net-salary/{employee_id}')
