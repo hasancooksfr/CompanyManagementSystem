@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 from services.payrolls import create_salary_structure
 from services.payrolls import view_salary_structure
 from services.payrolls import calculate_net_salary
+from services.payrolls import all_salary_structures
 
 # Schemas
 from schemas.payrolls import SalaryStructure
@@ -13,6 +14,16 @@ router = APIRouter()
 @router.get('/')
 def payroll_home():
     return "Payroll API"
+
+@router.get('/salary-structure')
+def get_all_salary_structures():
+    data = all_salary_structures()
+
+    return {
+        "success": True,
+        "message": "Fetched all salary structures",
+        "data": data
+    }
 
 @router.get('/salary-structure/{employee_id}')
 def get_salary_structure(employee_id):

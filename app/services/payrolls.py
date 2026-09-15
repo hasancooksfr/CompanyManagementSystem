@@ -24,6 +24,17 @@ def create_salary_structure(salary):
 
     return True
 
+def all_salary_structures():
+    res = list(salary_structure_collection.find(
+        {},
+        {
+            "_id": 0,
+            "employee_id": 1,
+            "basic_salary": 1
+        }
+    ))
+    return res
+
 def view_salary_structure(employee_id):
     res = salary_structure_collection.find_one({"employee_id": employee_id}, {"_id": 0})
     if not res:
