@@ -37,7 +37,7 @@ Department
 Job Title
 Salary
 Date of Joining
-Employement Status
+Employment Status
 ```
 
 ## API Endpoints
@@ -81,11 +81,11 @@ Example request:
     "name": "John Doe",
     "email_id": "john.doe@example.com",
     "phone_number": 1234567890,
-    "department": "Sales",
+    "department_id": "DEP001",
     "job_title": "Sales Executive",
     "date_of_joining": "2026-09-12",
     "salary": 14000,
-    "employement_status": "active"
+    "employment_status": "active"
 }
 ```
 
@@ -158,4 +158,5 @@ The employee management system has been tested for:
 - Updating employee records
 - Deleting employee records 
 - Invalid employee data
+- Invalid department_id error
 - Duplicate employee IDs

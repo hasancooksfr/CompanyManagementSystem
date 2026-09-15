@@ -11,3 +11,4 @@ client = MongoClient(MONGO_URI)
 db = client[DATABASE_NAME]
 
 employees_collection = db['employees']
+departments_collection = db['departments']

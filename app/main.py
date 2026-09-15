@@ -1,5 +1,7 @@
 from fastapi import FastAPI
+
 from routes.employees import router as employees_router
+from routes.departments import router as departments_router
 
 app = FastAPI()
 
@@ -11,4 +13,10 @@ app.include_router(             # Have to include every router like this
     employees_router, 
     prefix="/employees",
     tags=["Employees"]
+)
+
+app.include_router(
+    departments_router,
+    prefix="/departments",
+    tags=["Departments"]
 )
