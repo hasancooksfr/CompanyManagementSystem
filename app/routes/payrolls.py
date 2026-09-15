@@ -7,10 +7,12 @@ from services.payrolls import calculate_net_salary
 from services.payrolls import all_salary_structures
 from services.payrolls import salary_structure_update
 from services.payrolls import salary_structure_delete
+from services.payrolls import generate_payroll
 
 # Schemas
 from schemas.payrolls import SalaryStructure
 from schemas.payrolls import SalaryStructureUpdate
+from schemas.payrolls import PayrollGenerate
 
 router = APIRouter()
 
@@ -65,4 +67,13 @@ def net_salary(employee_id):
         "success": True,
         "message": "Calculated net salary for employee.",
         "net_salary": net_salary
+    }
+
+@router.post('/generate/{employee_id}', status_code=201)
+def payroll_generate(employee_id, payroll: PayrollGenerate):
+    payroll_id = generate_payroll(employee_id, payroll)
+    return {
+        "success": True,
+        "message": "Payroll generated successfully.",
+        "payroll_id": payroll_id
     }

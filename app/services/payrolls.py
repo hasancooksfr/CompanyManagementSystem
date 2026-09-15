@@ -93,3 +93,55 @@ def calculate_net_salary(employee_id):
 
     net_salary = (basic_salary + total_allowances) - total_deductions
     return net_salary
+
+def generate_payroll(employee_id, payroll):
+    data = payroll.model_dump()
+    res = salary_structure_collection.find_one({"employee_id": employee_id}, {"_id": 0})
+    if not res: 
+        raise HTTPException(
+            status_code=404,
+            detail="No salary structure found for that employee ID."
+        )
+
+    res1 = payrolls_collection.find_one(
+        {
+            "employee_id": employee_id,
+            "month": data['month']
+        }
+    )
+    if res1:
+        raise HTTPException(
+            status_code=409,
+            detail="Payroll already generated for employee_id in month."
+        )
+
+    basic_salary = res['basic_salary']
+    total_allowances = sum(res['allowances'].values())
+    total_deductions = sum(res['deductions'].values())
+
+    net_salary = (basic_salary + total_allowances) - total_deductions
+
+    last_payroll = payrolls_collection.find_one({},
+        sort=[("payroll_id", -1)]
+    )
+
+    if last_payroll is None:
+        payroll_id = "PAY001"
+    else:
+        last_id = int(last_payroll['payroll_id'].replace("PAY", ""))
+        payroll_id = f"PAY{last_id+1:03d}"
+
+    payroll1 = {
+        "payroll_id": payroll_id,
+        "employee_id": employee_id,
+        "month": data['month'],
+        "basic_salary": basic_salary,
+        "allowances": res['allowances'],
+        "deductions": res['deductions'],
+        "net_salary": net_salary,
+        "status": "generated"
+    }
+
+    payrolls_collection.insert_one(payroll1)
+
+    return payroll_id
