@@ -64,6 +64,21 @@ def salary_structure_update(employee_id, salary_structure):
 
     return True
 
+def salary_structure_delete(employee_id):
+    res = salary_structure_collection.delete_one(
+        {
+            "employee_id": employee_id
+        }
+    )
+
+    if res.deleted_count == 0:
+        raise HTTPException(
+            status_code=404,
+            detail="No records found for employee_id"
+        )
+
+    return True
+
 def calculate_net_salary(employee_id):
     res = salary_structure_collection.find_one({"employee_id": employee_id}, {"_id": 0})
     if not res:

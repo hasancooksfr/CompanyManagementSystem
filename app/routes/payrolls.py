@@ -6,6 +6,7 @@ from services.payrolls import view_salary_structure
 from services.payrolls import calculate_net_salary
 from services.payrolls import all_salary_structures
 from services.payrolls import salary_structure_update
+from services.payrolls import salary_structure_delete
 
 # Schemas
 from schemas.payrolls import SalaryStructure
@@ -46,6 +47,14 @@ def update_salary_structure(employee_id, salary_structure: SalaryStructureUpdate
     return {
         "success": True,
         "message": "Updated Salary Structure successfully."
+    }
+
+@router.delete('/salary-structure/{employee_id}')
+def delete_salary_structure(employee_id):
+    salary_structure_delete(employee_id)
+    return {
+        "success": True,
+        "message": "Deleted records for employee_id"
     }
 
 @router.get('/net-salary/{employee_id}')
