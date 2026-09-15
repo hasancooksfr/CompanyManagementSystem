@@ -23,3 +23,13 @@ def create_salary_structure(salary):
     salary_structure_collection.insert_one(structure)
 
     return True
+
+def view_salary_structure(employee_id):
+    res = salary_structure_collection.find_one({"employee_id": employee_id}, {"_id": 0})
+    if not res:
+        raise HTTPException(
+            status_code=404,
+            detail="No records found for that employee ID"
+        )
+
+    return res
