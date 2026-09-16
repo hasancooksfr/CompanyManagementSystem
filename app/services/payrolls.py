@@ -179,7 +179,8 @@ def get_payroll(employee_id, month):
     res = payrolls_collection.find_one(
         {
             "employee_id": employee_id,
-            "month": month
+            "month": month,
+            "status": {"$in": ["generated", "paid"]}
         },
         {
             "_id": 0
@@ -189,7 +190,63 @@ def get_payroll(employee_id, month):
     if not res:
         raise HTTPException(
             status_code=404,
-            detail="Payroll for employee_id and month does not exist."
+            detail="Payroll for employee_id and month does not exist with status 'generated' or 'paid'."
         )
 
     return res
+
+def get_payroll_by_payroll_id(payroll_id):
+    res = payrolls_collection.find_one({
+        "payroll_id": payroll_id
+    }, {
+        "_id": 0
+    })
+
+    if not res:
+        raise HTTPException(
+            status_code=404,
+            detail="Payroll with payroll_id does not exist."
+        )
+
+    return res
+
+def update_status_of_payroll(payroll_id, status):
+    payroll = payrolls_collection.find_one(
+        {
+            "payroll_id": payroll_id
+        },
+        {
+            "_id": 0
+        }
+    )
+    
+    if not payroll:
+        raise HTTPException(
+            status_code=404,
+            detail="Payroll does not exist with payroll_id"
+        )
+
+    if status == 'paid' and payroll['status'] == 'cancelled':
+        raise HTTPException(
+            status_code=409,
+            detail="Cancelled payroll can not be marked as paid"
+        )
+
+    res = payrolls_collection.update_one(
+        {
+            "payroll_id": payroll_id
+        },
+        {
+            "$set": {
+                "status": status
+            }
+        }
+    )
+
+    if res.modified_count == 0:
+        raise HTTPException(
+            status_code=409,
+            detail="Payroll is already marked with same status."
+        )
+
+    return True

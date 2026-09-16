@@ -10,6 +10,8 @@ from services.payrolls import salary_structure_delete
 from services.payrolls import generate_payroll
 from services.payrolls import get_all_payrolls
 from services.payrolls import get_payroll
+from services.payrolls import update_status_of_payroll
+from services.payrolls import get_payroll_by_payroll_id
 
 # Schemas
 from schemas.payrolls import SalaryStructure
@@ -94,3 +96,25 @@ def payroll_generate(employee_id, payroll: PayrollGenerate):
 @router.get('/{employee_id}')
 def payroll_get(employee_id, month: str):
     return get_payroll(employee_id, month)
+
+@router.get('/payroll-id/{payroll_id}')
+def payroll_by_payroll_id(payroll_id):
+    return get_payroll_by_payroll_id(payroll_id)
+
+@router.patch('/{payroll_id}/pay')
+def payroll_pay(payroll_id):
+    update_status_of_payroll(payroll_id, "paid")
+
+    return {
+        "success": True,
+        "message": "Payroll is marked as paid."
+    }
+
+@router.patch('/{payroll_id}/cancel')
+def payroll_cancel(payroll_id):
+    update_status_of_payroll(payroll_id, "cancelled")
+
+    return {
+        "success": True,
+        "message": "Payroll is marked as cancelled."
+    }
