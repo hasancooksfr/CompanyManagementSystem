@@ -232,6 +232,12 @@ def update_status_of_payroll(payroll_id, status):
             detail="Cancelled payroll can not be marked as paid"
         )
 
+    if status == 'cancelled' and payroll['status'] == 'paid':
+        raise HTTPException(
+            status_code=409,
+            detail="Paid payroll can not be marked as cancelled"
+        )
+        
     res = payrolls_collection.update_one(
         {
             "payroll_id": payroll_id
