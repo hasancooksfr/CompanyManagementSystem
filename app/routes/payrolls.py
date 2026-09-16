@@ -1,0 +1,120 @@
+from fastapi import APIRouter, HTTPException
+
+# Services
+from services.payrolls import create_salary_structure
+from services.payrolls import view_salary_structure
+from services.payrolls import calculate_net_salary
+from services.payrolls import all_salary_structures
+from services.payrolls import salary_structure_update
+from services.payrolls import salary_structure_delete
+from services.payrolls import generate_payroll
+from services.payrolls import get_all_payrolls
+from services.payrolls import get_payroll
+from services.payrolls import update_status_of_payroll
+from services.payrolls import get_payroll_by_payroll_id
+
+# Schemas
+from schemas.payrolls import SalaryStructure
+from schemas.payrolls import SalaryStructureUpdate
+from schemas.payrolls import PayrollGenerate
+
+router = APIRouter()
+
+@router.get('/')
+def all_payrolls(
+    month: str = None,
+    status: str = None,
+    employee_id: str = None,
+    payroll_id: str = None
+):
+    data = get_all_payrolls(month, status, employee_id, payroll_id)
+
+    return {
+        "success": True,
+        "message": "Fetched all payrolls",
+        "data": data
+    }
+
+@router.get('/salary-structure')
+def get_all_salary_structures():
+    data = all_salary_structures()
+
+    return {
+        "success": True,
+        "message": "Fetched all salary structures",
+        "data": data
+    }
+
+@router.get('/salary-structure/{employee_id}')
+def get_salary_structure(employee_id):
+    return view_salary_structure(employee_id)
+
+@router.post('/salary-structure', status_code=201)
+def salary_structure(salary: SalaryStructure):
+    create_salary_structure(salary)
+
+    return {
+        "success": True,
+        "message": "Salary structure successfully created."
+    }
+
+@router.put('/salary-structure/{employee_id}')
+def update_salary_structure(employee_id, salary_structure: SalaryStructureUpdate):
+    salary_structure_update(employee_id, salary_structure)
+    return {
+        "success": True,
+        "message": "Updated Salary Structure successfully."
+    }
+
+@router.delete('/salary-structure/{employee_id}')
+def delete_salary_structure(employee_id):
+    salary_structure_delete(employee_id)
+    return {
+        "success": True,
+        "message": "Deleted records for employee_id"
+    }
+
+@router.get('/net-salary/{employee_id}')
+def net_salary(employee_id):
+    net_salary = calculate_net_salary(employee_id)
+
+    return {
+        "success": True,
+        "message": "Calculated net salary for employee.",
+        "net_salary": net_salary
+    }
+
+@router.post('/generate/{employee_id}', status_code=201)
+def payroll_generate(employee_id, payroll: PayrollGenerate):
+    payroll_id = generate_payroll(employee_id, payroll)
+    return {
+        "success": True,
+        "message": "Payroll generated successfully.",
+        "payroll_id": payroll_id
+    }
+
+@router.get('/{employee_id}')
+def payroll_get(employee_id, month: str):
+    return get_payroll(employee_id, month)
+
+@router.get('/payroll-id/{payroll_id}')
+def payroll_by_payroll_id(payroll_id):
+    return get_payroll_by_payroll_id(payroll_id)
+
+@router.patch('/{payroll_id}/pay')
+def payroll_pay(payroll_id):
+    update_status_of_payroll(payroll_id, "paid")
+
+    return {
+        "success": True,
+        "message": "Payroll is marked as paid."
+    }
+
+@router.patch('/{payroll_id}/cancel')
+def payroll_cancel(payroll_id):
+    update_status_of_payroll(payroll_id, "cancelled")
+
+    return {
+        "success": True,
+        "message": "Payroll is marked as cancelled."
+    }
