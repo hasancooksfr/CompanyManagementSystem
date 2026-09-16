@@ -8,6 +8,7 @@ from services.payrolls import all_salary_structures
 from services.payrolls import salary_structure_update
 from services.payrolls import salary_structure_delete
 from services.payrolls import generate_payroll
+from services.payrolls import get_all_payrolls
 
 # Schemas
 from schemas.payrolls import SalaryStructure
@@ -17,8 +18,17 @@ from schemas.payrolls import PayrollGenerate
 router = APIRouter()
 
 @router.get('/')
-def payroll_home():
-    return "Payroll API"
+def all_payrolls(
+    month: str = None,
+    status: str = None
+):
+    data = get_all_payrolls(month, status)
+
+    return {
+        "success": True,
+        "message": "Fetched all payrolls",
+        "data": data
+    }
 
 @router.get('/salary-structure')
 def get_all_salary_structures():

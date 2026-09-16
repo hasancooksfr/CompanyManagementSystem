@@ -14,3 +14,4 @@ class SalaryStructureUpdate(BaseModel):
 
 class PayrollGenerate(BaseModel):
     month: str
+

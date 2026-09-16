@@ -145,3 +145,26 @@ def generate_payroll(employee_id, payroll):
     payrolls_collection.insert_one(payroll1)
 
     return payroll_id
+
+def get_all_payrolls(month, status):
+    query = {}
+
+    if month:
+        query['month'] = month
+
+    if status:
+        query['status'] = status
+
+    res = list(payrolls_collection.find(
+        query,
+        {
+            "_id": 0,
+            "payroll_id": 1,
+            "employee_id": 1,
+            "month": 1,
+            "net_salary": 1,
+            "status": 1
+        }
+    ))
+
+    return res
