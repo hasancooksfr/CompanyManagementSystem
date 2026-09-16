@@ -13,5 +13,7 @@ class SalaryStructureUpdate(BaseModel):
     deductions: Dict[str, float] = Field(default_factory=dict)
 
 class PayrollGenerate(BaseModel):
-    month: str
+    month: str = Field(
+        pattern=r"^(0[1-9]|1[0-2])-\d{4}$"
+    )
 

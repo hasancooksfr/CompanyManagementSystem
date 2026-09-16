@@ -146,7 +146,7 @@ def generate_payroll(employee_id, payroll):
 
     return payroll_id
 
-def get_all_payrolls(month, status):
+def get_all_payrolls(month, status, employee_id):
     query = {}
 
     if month:
@@ -154,6 +154,9 @@ def get_all_payrolls(month, status):
 
     if status:
         query['status'] = status
+
+    if employee_id:
+        query['employee_id'] = employee_id
 
     res = list(payrolls_collection.find(
         query,

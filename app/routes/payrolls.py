@@ -20,9 +20,10 @@ router = APIRouter()
 @router.get('/')
 def all_payrolls(
     month: str = None,
-    status: str = None
+    status: str = None,
+    employee_id: str = None
 ):
-    data = get_all_payrolls(month, status)
+    data = get_all_payrolls(month, status, employee_id)
 
     return {
         "success": True,
