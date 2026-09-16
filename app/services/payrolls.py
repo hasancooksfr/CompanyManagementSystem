@@ -146,7 +146,7 @@ def generate_payroll(employee_id, payroll):
 
     return payroll_id
 
-def get_all_payrolls(month, status, employee_id):
+def get_all_payrolls(month, status, employee_id, payroll_id):
     query = {}
 
     if month:
@@ -157,6 +157,9 @@ def get_all_payrolls(month, status, employee_id):
 
     if employee_id:
         query['employee_id'] = employee_id
+
+    if payroll_id:
+        query['payroll_id'] = payroll_id
 
     res = list(payrolls_collection.find(
         query,
@@ -169,5 +172,24 @@ def get_all_payrolls(month, status, employee_id):
             "status": 1
         }
     ))
+
+    return res
+
+def get_payroll(employee_id, month):
+    res = payrolls_collection.find_one(
+        {
+            "employee_id": employee_id,
+            "month": month
+        },
+        {
+            "_id": 0
+        }
+    )
+
+    if not res:
+        raise HTTPException(
+            status_code=404,
+            detail="Payroll for employee_id and month does not exist."
+        )
 
     return res
