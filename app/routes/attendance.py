@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 # Services
 from services.attendance import check_in
 from services.attendance import check_out
+from services.attendance import mark_absent
 
 # Schemas
 from schemas.attendance import CheckIn
@@ -30,4 +31,13 @@ def checkout(employee_id, data: CheckOut):
         "success": True,
         "message": "Employee checked out successfully.",
         "early_seconds": early
+    }
+
+@router.post('/mark-absent')
+def markabsent():
+    today = mark_absent()
+    return {
+        "status": True,
+        "message": "Marked absent for employees without check-in.",
+        "date": today
     }

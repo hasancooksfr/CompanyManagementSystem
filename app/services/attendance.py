@@ -118,3 +118,32 @@ def check_out(employee_id, data):
         }
     )
     return early_seconds
+
+def mark_absent():
+    today = datetime.now().strftime("%d-%m-%Y")
+    employees = employees_collection.find(
+        {
+            "employment_status": "active"
+        }
+    )
+
+    for employee in employees:
+        employee_id = employee['employee_id']
+
+        attendance = attendance_collection.find_one({
+            "employee_id": employee_id,
+            "date": today
+        })
+
+        if not attendance:
+            attendance_collection.insert_one({
+                "employee_id": employee_id,
+                "date": today,
+                "check_in": None,
+                "check_out": None,
+                "late_seconds": None,
+                "early_seconds": None,
+                "mark": "Absent"
+            })
+
+    return today
