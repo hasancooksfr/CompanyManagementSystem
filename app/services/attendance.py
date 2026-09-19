@@ -52,15 +52,69 @@ def check_in(employee_id, data):
     else:
         late_seconds = None
 
-
     resource = {
         "employee_id": employee_id,
         "date": d['date'],
         "check_in": d['check_in'].strftime("%H:%M:%S"),
         "check_out": None,
-        "late_seconds": (f"{late_seconds}" if late_seconds else "not late"),
+        "late_seconds": late_seconds,
+        "early_seconds": None,
         "mark": "Present"
     }
     attendance_collection.insert_one(resource)
     
     return late_seconds
+
+def check_out(employee_id, data):
+    d = data.model_dump()
+
+    attendance = attendance_collection.find_one({
+        "employee_id": employee_id,
+        "date": d['date']
+    }, {"_id": 0})
+
+    if not attendance:
+        raise HTTPException(
+            status_code=404,
+            detail="Employee ID did not check in for date."
+        )
+
+    if attendance['check_out']:
+        raise HTTPException(
+            status_code=409,
+            detail="Employee already checked out for date."
+        )
+
+    allowed_time = datetime.strptime(config['attendance']['check_out'], "%H:%M:%S").time()
+    check_out_timing = d['check_out']
+
+    check_out_seconds = (
+        check_out_timing.hour * 3600 +
+        check_out_timing.minute * 60 +
+        check_out_timing.second
+    )
+
+    allowed_seconds = (
+        allowed_time.hour * 3600 +
+        allowed_time.minute * 60 +
+        allowed_time.second
+    )
+
+    if allowed_seconds > check_out_seconds:
+        early_seconds = allowed_seconds - check_out_seconds
+    else:
+        early_seconds = None
+
+    attendance_collection.update_one(
+        {
+            "employee_id": employee_id,
+            "date": d['date']
+        },
+        {
+            "$set": {
+                "check_out": d['check_out'].strftime("%H:%M:%S"),
+                "early_seconds": early_seconds
+            }
+        }
+    )
+    return early_seconds
