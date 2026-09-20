@@ -147,3 +147,37 @@ def mark_absent():
             })
 
     return today
+
+def attendance_summary(employee_id):
+    attendance = attendance_collection.find_one(
+        {
+            "employee_id": employee_id
+        }
+    )
+    if not attendance:
+        raise HTTPException(
+            status_code=404,
+            detail="No attendance records found for this employee ID."
+        )
+
+    active_days = attendance_collection.count_documents({
+        "employee_id": employee_id
+    })
+
+    present_days = attendance_collection.count_documents({
+        "employee_id": employee_id,
+        "mark": "Present"
+    })
+
+    absent_days = active_days - present_days
+
+    data = {
+        "employee_id": employee_id,
+        "active_days": active_days,
+        "present_days": present_days,
+        "absent_days": absent_days
+    }
+
+    return data
+    
+

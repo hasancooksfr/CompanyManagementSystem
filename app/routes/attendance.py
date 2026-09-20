@@ -4,6 +4,7 @@ from fastapi import APIRouter, HTTPException
 from services.attendance import check_in
 from services.attendance import check_out
 from services.attendance import mark_absent
+from services.attendance import attendance_summary
 
 # Schemas
 from schemas.attendance import CheckIn
@@ -14,6 +15,15 @@ router = APIRouter()
 @router.get('/')
 def home():
     return "Welcome to Attendance Management"
+
+@router.get('/summary/{employee_id}')
+def summary(employee_id):
+    data = attendance_summary(employee_id)
+    return {
+        "success": True,
+        "message": "Fetched attendance summary for employee.",
+        "data": data
+    }
 
 @router.post('/check-in/{employee_id}')
 def checkin(employee_id, data: CheckIn):
