@@ -17,6 +17,16 @@ def create_department(department):
 
         if res:
             departments_collection.insert_one(department_dict)
+            employees_collection.update_one(
+                {
+                    "employee_id": department_dict['manager_id']
+                },
+                {
+                    "$set": {
+                        "department_id": department_dict['department_id']
+                    }
+                }
+            )
 
             return True
         

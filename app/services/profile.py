@@ -30,7 +30,7 @@ def fetch_profile(employee_id):
 
     if not department:
         if employee['department_id'] != "NOT ASSIGNED":
-            employee_collection.update_one(
+            employees_collection.update_one(
                 {
                     "employee_id": employee_id
                 },
