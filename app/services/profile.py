@@ -1,5 +1,6 @@
 from database import employees_collection, payrolls_collection, departments_collection, salary_structure_collection
 from fastapi import HTTPException
+from services.attendance import attendance_summary
 import math
 
 def fetch_profile(employee_id):
@@ -47,7 +48,9 @@ def fetch_profile(employee_id):
         )
 
     manager = employees_collection.find_one({"employee_id": department['manager_id']}, {"_id": 0, "name": 1, "email_id": 1})
-    
+
+    attendance = attendance_summary(employee_id)
+
     return {
         "employee_id": employee_id,
         "name": employee['name'],
@@ -57,10 +60,17 @@ def fetch_profile(employee_id):
         "job_title": employee['job_title'],
         "department": department['name'],
         "department_id": department['department_id'],
-        "manager_id": department['manager_id'],
-        "manager_name": manager['name'],
-        "manager_email_id": manager['email_id'],
+        "manager": {
+            "manager_id": department['manager_id'],
+            "manager_name": manager['name'],
+            "manager_email_id": manager['email_id']
+        },
         "salary": employee['salary'],
+        "attendance": {
+            "working_days": attendance['active_days'],
+            "present_days": attendance['present_days'],
+            "absent_days":  attendance['absent_days']
+        },
         "employment_status": employee['employment_status']
     }
 
@@ -95,7 +105,7 @@ def payroll_history(employee_id, page, limit):
             "status": "paid"
         }
     )
-    total_pages = math.cell(total / limit)
+    total_pages = math.ceil(total / limit)
 
     return {
         "success": True,
