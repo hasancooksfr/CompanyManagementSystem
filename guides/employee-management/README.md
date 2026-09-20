@@ -1,0 +1,118 @@
+# Employee Management
+**Employee Management** is the first completed module of the system.
+
+It provides the basic CRUD operations for managing employee records.
+
+## Features:
+- Create Employees
+- View all employees
+- View individual employee
+- Update employee information
+- Delete employees
+- Search employees
+
+## Employee Information
+An employee record currently contains:
+```text
+Employee ID
+Name
+Email ID
+Phone Number
+Department
+Job Title
+Salary
+Date of Joining
+Employment Status
+```
+
+# API Endpoints
+## Get all employees
+```http
+GET /employees/
+```
+Returns a list of employees with basic information.
+
+Example:
+```JSON
+{
+    "success": true,
+    "message": "Fetched all employees",
+    "data": [
+        {
+            "employee_id": "EMP001",
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "department": "Sales"
+        }
+    ]
+}
+```
+
+## Get an employee
+```http
+GET /employees/{employee_id}
+```
+Returns detailed information about a specific employee.
+
+## Create an employee
+```http
+POST /employees/
+```
+
+Example request:
+```JSON
+{
+    "employee_id": "EMP001",
+    "name": "John Doe",
+    "email_id": "john.doe@example.com",
+    "phone_number": 1234567890,
+    "department_id": "DEP001",
+    "job_title": "Sales Executive",
+    "date_of_joining": "2026-09-12",
+    "salary": 14000,
+    "employment_status": "active"
+}
+```
+
+## Update an employee
+```http
+PUT /employees/{employee_id}
+```
+Updates information for an existing employee
+
+## Delete an employee
+```http
+DELETE /employees/{employee_id}
+```
+Deletes an employee record.
+
+## Postman Collection
+
+Postman collection for *Employee Management* can be found [here](https://www.postman.com/hasancooksreal-6713011/workspace/company-management-system/folder/50773921-650d8361-e262-42f9-b1ce-390f0eeb11bf?action=share&creator=50773921). **Please run server first to test all the commands smoothly**.
+
+
+# Screenshots
+## Employee Creation
+![Create Employee](/assets/create_employee.png)
+
+## Get all employees
+![Get all Employees](/assets/get_all_employees.png)
+
+## Get employee details
+![Get employee details](/assets/get_employee_details.png)
+
+## Update employee details
+![Update employee details](/assets/update_employee.png)
+
+## Delete employee details
+![Delete employee details](/assets/delete_employee.png)
+
+## Testing
+The employee management system has been tested for:
+- Creating employee records
+- Retrieving employee records
+- Updating employee records
+- Deleting employee records 
+- Invalid employee data
+- Invalid department_id error
+- Duplicate employee IDs

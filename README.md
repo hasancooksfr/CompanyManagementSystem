@@ -3,6 +3,16 @@ The **Company Management System** is a web-based management system designed to h
 
 The project is being developed using **FastAPI** and **MongoDB**, with additional modules planned throughout the development period.
 
+## Features
+This system currently includes the following modules:
+- Employee Management
+- Department Management
+- Payroll Management
+- Attendance Management
+- Employee Profiles
+
+Additional modules and improvements will be added throughout development.
+
 ## Tech Stack
 | Technology | Purpose |
 |------------|---------|
@@ -13,93 +23,19 @@ The project is being developed using **FastAPI** and **MongoDB**, with additiona
 | Uvicorn | Development Server |
 | python-dotenv | Environment variable management |
 
-## Employee Management
-**Employee Management** is the first completed module of the system.
+## Module Guides
+Detailed documentation for each module is available in the `/guides` dictionary.
 
-It provides the basic CRUD operations for managing employee records.
+| Module | Guide |
+|--------|-------|
+| Employee Management | [Employee Management Guide](/guides/employee-management/) |
+| Department Management | [Department Management Guide](/guides/department-management/) |
+| Payroll Management | [Payroll Management Guide](/guides/payroll-management/) |
+| Attendance Management | [Attendance Management Guide](/guides/attendance-management/) |
+| Employee Profile | [Employee Profile Guide](/guides/employee-profile/) |
 
-### Features:
-- Create Employees
-- View all employees
-- View individual employee
-- Update employee information
-- Delete employees
-- Search employees
+> This list can be updated as new modules are added.
 
-### Employee Information
-An employee record currently contains:
-```text
-Employee ID
-Name
-Email ID
-Phone Number
-Department
-Job Title
-Salary
-Date of Joining
-Employment Status
-```
-
-## API Endpoints
-### Get all employees
-```http
-GET /employees/
-```
-Returns a list of employees with basic information.
-
-Example:
-```JSON
-{
-    "success": true,
-    "message": "Fetched all employees",
-    "data": [
-        {
-            "employee_id": "EMP001",
-            "name": "John Doe",
-            "email": "john.doe@example.com",
-            "department": "Sales"
-        }
-    ]
-}
-```
-
-### Get an employee
-```http
-GET /employees/{employee_id}
-```
-Returns detailed information about a specific employee.
-
-### Create an employee
-```http
-POST /employees/
-```
-
-Example request:
-```JSON
-{
-    "employee_id": "EMP001",
-    "name": "John Doe",
-    "email_id": "john.doe@example.com",
-    "phone_number": 1234567890,
-    "department_id": "DEP001",
-    "job_title": "Sales Executive",
-    "date_of_joining": "2026-09-12",
-    "salary": 14000,
-    "employment_status": "active"
-}
-```
-
-### Update an employee
-```http
-PUT /employees/{employee_id}
-```
-Updates information for an existing employee
-
-### Delete an employee
-```http
-DELETE /employees/{employee_id}
-```
-Deletes an employee record.
 
 ## Running the project
 ### 1. Clone the repository
@@ -130,33 +66,23 @@ The API will be available at:
 http://127.0.0.1:8000
 ```
 
-### Postman Collection
+## Database
+This project uses **MongoDB** for data storage.
 
-Postman collection for *Employee Management* can be found [here](https://www.postman.com/hasancooksreal-6713011/workspace/company-management-system/folder/50773921-650d8361-e262-42f9-b1ce-390f0eeb11bf?action=share&creator=50773921). **Please run server first to test all the commands smoothly**.
+The system currently uses separate collections for different areas of applications, including:
+```text
+employees
+departments
+attendance
+salary_structure
+payroll
+```
+Each module is responsible for managing its own related data while using identifiers such as `employee_id` and `department_id` to connect records.
 
+## Frontend
 
-## Screenshots
-### Employee Creation
-![Create Employee](assets/create_employee.png)
+The frontend is currently being developed separately by a team member on the `frontend` branch.
 
-### Get all employees
-![Get all Employees](assets/get_all_employees.png)
+The frontend is still under active development and is not yet ready to be merged into `main` for the current ship.
 
-### Get employee details
-![Get employee details](assets/get_employee_details.png)
-
-### Update employee details
-![Update employee details](assets/update_employee.png)
-
-### Delete employee details
-![Delete employee details](assets/delete_employee.png)
-
-## Testing
-The employee management system has been tested for:
-- Creating employee records
-- Retrieving employee records
-- Updating employee records
-- Deleting employee records 
-- Invalid employee data
-- Invalid department_id error
-- Duplicate employee IDs
+The currently shipped version therefore focuses on the backend and API functionality. The `frontend` branch will be integrated into `main` branch once the frontend development and testing are complete.
