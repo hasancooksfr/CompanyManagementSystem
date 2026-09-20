@@ -9,6 +9,7 @@ It provides basic controls for managing attendance records.
 - Calculate late CheckIn/early Checkout seconds
 - Mark absent for employees who didn't check-in
 - View attendance summary of a single employee
+- View attendance summary of date
 - View attendance data of employee on particular date
 
 # Attendance Information
@@ -75,6 +76,12 @@ Example response:
 }
 ```
 
+## Get attendance summary of date
+```http
+GET /attendance/?date=20-09-2026
+```
+Returns the total number of employees, present employees, and absent employees on the date provided. `?date=20-09-2026` is optional, if not provided, date is considered as the date on which request is made.
+
 ## Get attendance data of employee on date
 ```http
 GET /attendance/{employee_id}?date={date}
@@ -109,6 +116,8 @@ Postman collection for *Attendance Management* can be found [here](https://www.p
 
 ## Get attendance summary of an employee
 ![Attendance summary](/assets/attendance-management/attendance-summary.png)
+
+## Get attendance summary of date
 
 ## Get attendance data of an employee on date
 ![Attendance data](/assets/attendance-management/attendance-data.png)
