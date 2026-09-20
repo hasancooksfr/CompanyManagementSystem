@@ -91,7 +91,7 @@ def delete_employee_data(
     employee_id
 ):
     result = employees_collection.delete_one(
-        {"_id": employee_id}
+        {"employee_id": employee_id}
     )
 
     if result.deleted_count == 0:
