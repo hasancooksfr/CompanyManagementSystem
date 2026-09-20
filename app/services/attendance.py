@@ -193,3 +193,25 @@ def get_attendance_of_date(employee_id, date):
         )
 
     return attendance
+
+def attendance_summary_of_date(date):
+    if not date:
+        date = datetime.now().strftime('%d-%m-%Y')
+
+    total_employees = employees_collection.count_documents({
+        "employment_status": "active"
+    })
+
+    present_employees = attendance_collection.count_documents({
+        "date": date,
+        "mark": "Present"
+    })
+
+    absent_employees = total_employees - present_employees
+
+    return {
+        "date": date,
+        "total_employees": total_employees,
+        "present_employees": present_employees,
+        "absent_employees": absent_employees
+    }

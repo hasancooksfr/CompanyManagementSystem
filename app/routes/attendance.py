@@ -6,6 +6,7 @@ from services.attendance import check_out
 from services.attendance import mark_absent
 from services.attendance import attendance_summary
 from services.attendance import get_attendance_of_date
+from services.attendance import attendance_summary_of_date
 
 # Schemas
 from schemas.attendance import CheckIn
@@ -14,8 +15,17 @@ from schemas.attendance import CheckOut
 router = APIRouter()
 
 @router.get('/')
-def home():
-    return "Welcome to Attendance Management"
+def attendanceSummaryOfDate(
+    date: str | None = Query( None,
+        pattern = r"^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$"
+    ) 
+):
+    data = attendance_summary_of_date(date)
+    return {
+        "success": True,
+        "message": "Fetched attendance summary for date.",
+        "data": data
+    }
 
 @router.get('/summary/{employee_id}')
 def summary(employee_id):
