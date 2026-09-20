@@ -179,5 +179,17 @@ def attendance_summary(employee_id):
     }
 
     return data
-    
 
+def get_attendance_of_date(employee_id, date):
+    attendance = attendance_collection.find_one({
+        "employee_id": employee_id,
+        "date": date
+    }, {"_id": 0})
+
+    if not attendance:
+        raise HTTPException(
+            status_code=404,
+            detail="No attendance record found for employee_id on date."
+        )
+
+    return attendance

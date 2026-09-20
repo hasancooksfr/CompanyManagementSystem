@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 
 # Services
 from services.attendance import check_in
 from services.attendance import check_out
 from services.attendance import mark_absent
 from services.attendance import attendance_summary
+from services.attendance import get_attendance_of_date
 
 # Schemas
 from schemas.attendance import CheckIn
@@ -24,6 +25,15 @@ def summary(employee_id):
         "message": "Fetched attendance summary for employee.",
         "data": data
     }
+
+@router.get('/{employee_id}')
+def attendanceOnDate(
+    employee_id,
+    date: str = Query(
+        pattern = r"^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$"
+    )
+):
+    return get_attendance_of_date(employee_id, date)
 
 @router.post('/check-in/{employee_id}')
 def checkin(employee_id, data: CheckIn):
