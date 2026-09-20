@@ -6,25 +6,25 @@ from pymongo.errors import DuplicateKeyError
 def create_employee(employee):
     employee_dict = employee.model_dump()
 
-    res = departments_collection.find_one({"department_id": employee_dict['department_id']})
-    if res:
-        result = employees_collection.find_one({"employee_id": employee_dict['employee_id']})
-        if result:
-            raise HTTPException(
-                status_code=409,
-                detail="Employee ID already exists."
-            )
-        
-        else:
-            employees_collection.insert_one(employee_dict)
-
-            return True
-
-    else:
+    result = employees_collection.find_one({"employee_id": employee_dict['employee_id']})
+    if result:
         raise HTTPException(
-            status_code=404,
-            detail="Department with department_id does not exist."
+            status_code=409,
+            detail="Employee ID already exists."
         )
+
+    if employee_dict['department_id']:
+        res = departments_collection.find_one({"department_id": employee_dict['department_id']})
+        if not res:
+            raise HTTPException(
+                status_code=404,
+                detail="Department with department_id does not exist."
+            )
+            
+    employees_collection.insert_one(employee_dict)
+
+    return True
+            
 
 def get_all_employees():
     employees = list(employees_collection.find(
