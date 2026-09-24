@@ -22,11 +22,12 @@ def getAllPendingRequests(
 
 @router.post('/apply/{employee_id}', status_code=201)
 def apply_leave(employee_id, data: createRequest):
-    create_request(employee_id, data)
+    req_id = create_request(employee_id, data)
 
     return {
         "success": True,
-        "message": "Leave applied with status pending."
+        "message": "Leave applied with status pending.",
+        "request_id": req_id
     }
 
 @router.get('/all/{employee_id}')

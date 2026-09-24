@@ -46,7 +46,7 @@ def create_request(employee_id, data):
         "status": "pending"
     })
 
-    return True
+    return req_id
 
 def get_requests_by_employee(employee_id):
     data = list(leave_collection.find({
