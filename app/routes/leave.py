@@ -1,10 +1,14 @@
 from fastapi import APIRouter, HTTPException
 
+# Services
 from services.leave import create_request
 from services.leave import get_requests_by_employee
 from services.leave import get_request_by_id
+from services.leave import update_status_of_request
 
+# Schemas
 from schemas.leave import createRequest
+from schemas.leave import addReview
 
 router = APIRouter()
 
@@ -35,3 +39,21 @@ def getRequestsByEmployee(employee_id):
 @router.get('/{request_id}')
 def getRequestById(request_id):
     return get_request_by_id(request_id)
+
+@router.patch('/{request_id}/approve')
+def approveRequest(request_id, review: addReview):
+    update_status_of_request(request_id, "approved", review)
+
+    return {
+        "success": True,
+        "message": "Request approved successfully."
+    }
+
+@router.patch('/{request_id}/reject')
+def rejectRequest(request_id, review: addReview):
+    update_status_of_request(request_id, "rejected", review)
+    
+    return {
+        "success": True,
+        "message": "Request rejected successfully."
+    }

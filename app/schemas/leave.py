@@ -16,3 +16,6 @@ class createRequest(BaseModel):
         'maternity',
         'paternity'
     ]
+
+class addReview(BaseModel):
+    notes: str
