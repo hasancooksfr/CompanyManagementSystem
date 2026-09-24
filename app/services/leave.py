@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from database import leave_collection, employees_collection
 from datetime import datetime
+import math
 
 def create_request(employee_id, data):
     leave = data.model_dump()
@@ -127,3 +128,41 @@ def update_status_of_request(request_id, status, review):
     )
 
     return True
+
+def get_all_pending_requests(page, limit):
+    skip = (page - 1) * limit
+
+    data = list(leave_collection.find(
+        {
+            "status": "pending"
+        },
+        {
+            "_id": 0,
+            "request_id": 1,
+            "employee_id": 1,
+            "from_date": 1,
+            "to_date": 1,
+            "type": 1
+        })
+        .sort("from_date", -1)
+        .skip(skip)
+        .limit(limit)
+    )
+
+    total = leave_collection.count_documents({
+        "status": "pending"
+    })
+
+    total_pages = math.ceil(total / limit)
+
+    return {
+        "success": True,
+        "message": "Fetched all pending requests",
+        "data": data,
+        "pagination": {
+            "page": page,
+            "limit": limit,
+            "total_records": total,
+            "total_pages": total_pages
+        }
+    }
