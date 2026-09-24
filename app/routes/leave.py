@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from services.leave import create_request
+from services.leave import get_requests_by_employee
 
 from schemas.leave import createRequest
 
@@ -17,4 +18,15 @@ def apply_leave(employee_id, data: createRequest):
     return {
         "success": True,
         "message": "Leave applied with status pending."
+    }
+
+@router.get('/{employee_id}')
+def getRequestsByEmployee(employee_id):
+    data = get_requests_by_employee(employee_id)
+
+    return {
+        "success": True,
+        "message": "Fetched all requests for employee_id",
+        "employee_id": employee_id,
+        "data": data
     }

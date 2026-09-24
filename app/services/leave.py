@@ -46,3 +46,14 @@ def create_request(employee_id, data):
     })
 
     return True
+
+def get_requests_by_employee(employee_id):
+    data = list(leave_collection.find({
+        "employee_id": employee_id
+    }, {
+        "_id": 0,
+        "employee_id": 0,
+        "reason": 0
+    }))
+
+    return data
