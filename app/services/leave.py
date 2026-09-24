@@ -57,3 +57,16 @@ def get_requests_by_employee(employee_id):
     }))
 
     return data
+
+def get_request_by_id(request_id):
+    data = leave_collection.find_one({
+        "request_id": request_id
+    }, {"_id": 0})
+
+    if not data:
+        raise HTTPException(
+            status_code=404,
+            detail="No request found with request_id."
+        )
+
+    return data
