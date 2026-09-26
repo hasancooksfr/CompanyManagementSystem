@@ -5,6 +5,7 @@ from routes.departments import router as departments_router
 from routes.payrolls import router as payrolls_router
 from routes.profile import router as profile_router
 from routes.attendance import router as attendance_router
+from routes.leave import router as leave_router
 
 app = FastAPI()
 
@@ -40,4 +41,10 @@ app.include_router(
     attendance_router,
     prefix="/attendance",
     tags=["Attendance"]
+)
+
+app.include_router(
+    leave_router,
+    prefix='/leave',
+    tags=['Leave']
 )
